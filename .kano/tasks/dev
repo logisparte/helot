@@ -1,0 +1,14 @@
+#!/bin/sh
+
+dev_help() {
+  echo "Run the local image interactively"
+}
+
+dev() {
+  docker run -it \
+    --rm \
+    --volume "$PWD:$PWD" \
+    --workdir "$PWD" \
+    "$LOCAL_TAG" \
+    bash
+}

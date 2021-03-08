@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+GIT_NAME="$1"
+GIT_EMAIL="$2"
+PERSONAL_ACCESS_TOKEN="$3"
+
+git config --system user.name "$GIT_NAME"
+git config --system user.email "$GIT_EMAIL"
+git config --system \
+  url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf "https://github.com/"

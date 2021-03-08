@@ -14,7 +14,7 @@ Base Docker image for process automation
 
 It's essential to automate work that does not create value. This repository contains a
 Ubuntu-based Docker image that helps automate processes interacting with _GitHub_ and _Amazon
-Web Services_
+Web Services_. [kano](https://github.com/logisparte/kano) is also included
 
 ## License
 
@@ -45,7 +45,7 @@ FROM ghcr.io/logisparte/helot
 To configure git and GitHub credentials **from inside the container**:
 
 ```shell
-kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
+/root/configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 ```
 
 #### AWS
