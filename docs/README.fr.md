@@ -45,7 +45,7 @@ FROM ghcr.io/logisparte/helot
 Pour configurer les identifiants git et GitHub **depuis l'intérieur du conteneur** :
 
 ```shell
-/root/configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
+kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 ```
 
 #### AWS

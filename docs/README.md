@@ -45,7 +45,7 @@ FROM ghcr.io/logisparte/helot
 To configure git and GitHub credentials **from inside the container**:
 
 ```shell
-/root/configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
+kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 ```
 
 #### AWS
