@@ -1,0 +1,9 @@
+#!/bin/sh
+
+build_help() {
+  echo "Build the docker image with local tag"
+}
+
+build() {
+  docker build --tag "$LOCAL_TAG" ./docker
+}

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+. "$KANO_HELPERS/fail"
+. "$KANO_HELPERS/succeed"
+
+test_help() {
+  echo "Test the docker image (from inside container)"
+}
+
+test() {
+  _test_github
+  _test_aws
+  succeed "Tests passed"
+}
+
+_test_github() {
+  gh --version >/dev/null 2>&1 || fail "GitHub not properly configured"
+}
+
+_test_aws() {
+  aws --version >/dev/null 2>&1 || fail "AWS not properly configured"
+}
