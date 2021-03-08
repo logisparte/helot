@@ -32,4 +32,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && ./aws/install \
     && rm -rf ./aws
 
-COPY configure_github /root/configure_github
+COPY .kano_global /root/.kano_global
+
+# GitHub actions run the container with HOME=/github/home
+RUN mkdir -p /github/home \
+    && ln -s /root/.kano_global /github/home/.kano_global
