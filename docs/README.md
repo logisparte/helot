@@ -42,7 +42,7 @@ FROM ghcr.io/logisparte/helot
 
 #### GitHub
 
-To configure git and GitHub credentials **from inside the container**:
+To configure system-wide git and GitHub credentials **from inside the container**:
 
 ```shell
 kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"

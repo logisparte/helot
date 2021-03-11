@@ -1,7 +1,7 @@
 #!/bin/sh -e
 
 configure_github_help() {
-  echo "Configure git identity and GitHub credentials"
+  echo "Configure system-wide git identity and GitHub credentials"
 }
 
 configure_github() {
