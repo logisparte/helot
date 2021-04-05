@@ -20,6 +20,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     git \
     groff \
     less \
+    ssh-client \
     unzip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
