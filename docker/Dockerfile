@@ -22,6 +22,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     less \
     ssh-client \
     unzip \
+    zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && curl -L https://github.com/logisparte/kano/releases/latest/download/kano.tar.gz | tar -xz \
@@ -34,3 +35,5 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && rm -rf ./aws
 
 COPY kano /etc/kano
+
+CMD zsh
