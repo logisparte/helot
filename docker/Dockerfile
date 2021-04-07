@@ -9,7 +9,7 @@ LABEL name="helot" \
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y -q --no-install-recommends \
-    gnupg \
+    gnupg2 \
     software-properties-common \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 \
     && apt-add-repository https://cli.github.com/packages \
