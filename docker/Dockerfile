@@ -21,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     gh \
     git \
     groff \
+    language-pack-fr \
     less \
     ssh-client \
     unzip \
