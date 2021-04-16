@@ -6,6 +6,8 @@ LABEL name="helot" \
     author_email="info@logisparte.com" \
     description="Base Docker image for process automation"
 
+ENV EDITOR="/usr/bin/vim"
+
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y -q --no-install-recommends \
@@ -22,6 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     less \
     ssh-client \
     unzip \
+    vim \
     zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \

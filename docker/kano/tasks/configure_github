@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 
 configure_github_help() {
   echo "Configure system-wide git identity and GitHub credentials"

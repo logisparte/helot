@@ -15,6 +15,8 @@ Image Docker de base pour automatisation de processus
 Il est essentiel d'automatiser le plus possible le travail qui ne crée pas de valeur. Ce dépôt
 contient une image Docker basée sur Ubuntu aidant à automatiser des processus interagissant avec
 _GitHub_ et _Amazon Web Services_. [kano](https://github.com/logisparte/kano) est aussi inclus
+ainsi que d'autres dépendances incontournables pour l'expérience de développement (voir le
+[Dockerfile](/docker/Dockerfile) pour de plus de détails)
 
 ## Licence
 

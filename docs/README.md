@@ -14,7 +14,8 @@ Base Docker image for process automation
 
 It's essential to automate work that does not create value. This repository contains a
 Ubuntu-based Docker image that helps automate processes interacting with _GitHub_ and _Amazon
-Web Services_. [kano](https://github.com/logisparte/kano) is also included
+Web Services_. [kano](https://github.com/logisparte/kano) is also included alongside other
+development experience essentials (see the [Dockerfile](/docker/Dockerfile) for more details)
 
 ## License
 
