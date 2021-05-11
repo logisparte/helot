@@ -8,6 +8,8 @@ LABEL name="helot" \
 
 ENV EDITOR="/usr/bin/vim"
 
+CMD /bin/zsh
+
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y -q --no-install-recommends \
@@ -30,10 +32,10 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && chsh -s /bin/zsh root \
-    && curl -L https://github.com/logisparte/kano/releases/latest/download/kano.tar.gz | tar -xz \
+    && curl -L https://github.com/logisparte/kano/releases/2.4.2/download/kano.tar.gz | tar -xz \
     && ./kano/install \
     && rm -rf ./kano \
-    && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip \
+    && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.2.3.zip -o awscliv2.zip \
     && unzip awscliv2.zip \
     && rm -rf awscliv2.zip \
     && ./aws/install \
