@@ -32,7 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && chsh -s /bin/zsh root \
-    && curl -L https://github.com/logisparte/kano/releases/download/2.4.2/kano.tar.gz | tar -xz \
+    && curl -L https://github.com/logisparte/kano/releases/download/2.6.0/kano.tar.gz | tar -xz \
     && ./kano/install \
     && rm -rf ./kano \
     && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.2.3.zip -o awscliv2.zip \
