@@ -1,7 +1,7 @@
 #!/bin/sh
 
 configure_github_help() {
-  echo "Configure system-wide git identity and GitHub credentials"
+  echo "Configure local git identity and GitHub credentials"
 }
 
 configure_github() {
@@ -9,8 +9,8 @@ configure_github() {
   GIT_EMAIL="$2"
   PERSONAL_ACCESS_TOKEN="$3"
 
-  git config --system user.name "$GIT_NAME"
-  git config --system user.email "$GIT_EMAIL"
-  git config --system \
+  git config --local user.name "$GIT_NAME"
+  git config --local user.email "$GIT_EMAIL"
+  git config --local \
     url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf "https://github.com/"
 }

@@ -44,7 +44,7 @@ FROM ghcr.io/logisparte/helot
 
 #### GitHub
 
-Pour configurer les identifiants git et GitHub **depuis l'intérieur du conteneur** :
+Pour configurer les identifiants git et GitHub locaux **depuis l'intérieur du conteneur** :
 
 ```shell
 kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
