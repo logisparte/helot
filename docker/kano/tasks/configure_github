@@ -1,15 +1,27 @@
 #!/bin/sh
 
 configure_github_help() {
-  echo "Configure local git identity and GitHub credentials"
+  echo "Configure git identity and GitHub credentials"
 }
 
 configure_github() {
+  case "$1" in
+    -*)
+      FLAG="$1"
+      shift
+      ;;
+
+    *)
+      FLAG="--local"
+      ;;
+  esac
+
   GIT_NAME="$1"
   GIT_EMAIL="$2"
   PERSONAL_ACCESS_TOKEN="$3"
 
-  git config user.name "$GIT_NAME"
-  git config user.email "$GIT_EMAIL"
-  git config url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf "https://github.com/"
+  git config "$FLAG" user.name "$GIT_NAME"
+  git config "$FLAG" user.email "$GIT_EMAIL"
+  git config "$FLAG" url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf \
+    "https://github.com/"
 }
