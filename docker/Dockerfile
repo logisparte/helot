@@ -1,10 +1,9 @@
 FROM ubuntu:20.04
 
-LABEL name="helot" \
-    url="https://github.com/logisparte/helot" \
-    author="logisparte" \
-    author_email="info@logisparte.com" \
-    description="Base Docker image for process automation"
+LABEL org.opencontainers.image.title="helot" \
+    org.opencontainers.image.description="Base Docker image for process automation" \
+    org.opencontainers.image.authors="logisparte <info@logisparte.com>" \
+    org.opencontainers.image.source="https://github.com/logisparte/helot"
 
 ENV EDITOR="/usr/bin/vim"
 
