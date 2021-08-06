@@ -9,8 +9,7 @@ configure_github() {
   GIT_EMAIL="$2"
   PERSONAL_ACCESS_TOKEN="$3"
 
-  git config --local user.name "$GIT_NAME"
-  git config --local user.email "$GIT_EMAIL"
-  git config --local \
-    url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf "https://github.com/"
+  git config user.name "$GIT_NAME"
+  git config user.email "$GIT_EMAIL"
+  git config url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf "https://github.com/"
 }
