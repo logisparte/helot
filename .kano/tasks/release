@@ -1,0 +1,69 @@
+#!/bin/sh
+
+. "$KANO_HELPERS/fail"
+
+release_help() {
+  echo "Build and release helot images to registry"
+}
+
+release() {
+  REGISTRY="$1"
+  REPOSITORY="$2"
+  HELOT_VERSION="$3"
+
+  if [ -z "$HELOT_VERSION" ]; then
+    fail "No helot version provided"
+  fi
+
+  for UBUNTU_VERSION in $(_get_ubuntu_versions); do
+    _build_and_release_image "$REGISTRY" "$REPOSITORY" "$HELOT_VERSION" "$UBUNTU_VERSION"
+  done
+
+  _build_and_release_default_image "$REGISTRY" "$REPOSITORY" "$HELOT_VERSION"
+}
+
+_get_ubuntu_versions() {
+  echo "16.04"
+  echo "18.04"
+  echo "20.04"
+}
+
+_build_and_release_image() {
+  REGISTRY="$1"
+  REPOSITORY="$2"
+  HELOT_VERSION="$3"
+  UBUNTU_VERSION="$4"
+
+  IMAGE="$REGISTRY/$REPOSITORY-$UBUNTU_VERSION"
+  VERSIONED_IMAGE="$IMAGE:$HELOT_VERSION"
+  LATEST_IMAGE="$IMAGE:latest"
+
+  docker build \
+    --file .kano/Dockerfile \
+    --build-arg UBUNTU_VERSION="$UBUNTU_VERSION" \
+    --tag "$VERSIONED_IMAGE" \
+    --tag "$LATEST_IMAGE" \
+    .
+
+  docker push "$VERSIONED_IMAGE"
+  docker push "$LATEST_IMAGE"
+}
+
+_build_and_release_default_image() {
+  REGISTRY="$1"
+  REPOSITORY="$2"
+  HELOT_VERSION="$3"
+
+  IMAGE="$REGISTRY/$REPOSITORY"
+  VERSIONED_IMAGE="$IMAGE:$HELOT_VERSION"
+  LATEST_IMAGE="$IMAGE:latest"
+
+  docker build \
+    --file .kano/Dockerfile \
+    --tag "$VERSIONED_IMAGE" \
+    --tag "$LATEST_IMAGE" \
+    .
+
+  docker push "$VERSIONED_IMAGE"
+  docker push "$LATEST_IMAGE"
+}

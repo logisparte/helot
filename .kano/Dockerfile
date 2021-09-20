@@ -1,7 +1,8 @@
-FROM ubuntu:20.04
+ARG UBUNTU_VERSION="20.04"
+FROM ubuntu:$UBUNTU_VERSION
 
-LABEL org.opencontainers.image.title="helot" \
-    org.opencontainers.image.description="Base Docker image for process automation" \
+LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION" \
+    org.opencontainers.image.description="Base development image" \
     org.opencontainers.image.authors="logisparte <info@logisparte.com>" \
     org.opencontainers.image.source="https://github.com/logisparte/helot"
 
@@ -12,13 +13,17 @@ CMD /bin/zsh
 RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get install -y -q --no-install-recommends \
-    gnupg2 \
-    software-properties-common \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0 \
-    && apt-add-repository https://cli.github.com/packages \
-    && apt-get install -y -q --no-install-recommends \
+    apt-transport-https \
     ca-certificates \
     curl \
+    gnupg2 \
+    software-properties-common \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+        | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+        | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && apt-get update \
+    && apt-get install -y -q --no-install-recommends \
     gh \
     git \
     groff \
@@ -31,7 +36,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && chsh -s /bin/zsh root \
-    && curl -L https://github.com/logisparte/kano/releases/download/3.0.0/kano.tar.gz | tar -xz \
+    && curl -L https://github.com/logisparte/kano/releases/download/3.0.0/kano.tar.gz \
+        | tar -xz \
     && ./kano/install \
     && rm -rf ./kano \
     && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.2.3.zip -o awscliv2.zip \
@@ -40,4 +46,4 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && ./aws/install \
     && rm -rf ./aws
 
-COPY kano /etc/kano
+COPY sources/kano /etc/kano
