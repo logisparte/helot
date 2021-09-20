@@ -2,7 +2,7 @@
 
 > Lire en [Français](/docs/README.fr.md)
 
-Base Docker image for process automation
+Base development Docker images
 
 ## About
 
@@ -12,10 +12,22 @@ Base Docker image for process automation
 > were responsible for farming the land and accomplishing domestic chores so that Spartan men
 > could dedicate themselves to military training
 
-It's essential to automate work that does not create value. This repository contains a
-Ubuntu-based Docker image that helps automate processes interacting with _GitHub_ and _Amazon
-Web Services_. [kano](https://github.com/logisparte/kano) is also included alongside other
-development experience essentials (see the [Dockerfile](/docker/Dockerfile) for more details)
+It's essential to automate work that does not create value
+
+Continuous integration (CI) and continuous delivery (CD) are the first automated workflows any
+engineering team should put in place when beginning a project. In that regard, the best strategy
+is to use a common shareable development environment that ensures deterministic code execution
+for all engineers and bots. This repository contains Ubuntu-based Docker images that can play
+this role. They contain basic tools for general development and CI/CD automation (see the
+[Dockerfile](/.kano/Dockerfile) for more details)
+
+The default image is based on Ubuntu 20.04. Specific versions are denoted with a dashed-suffix.
+These are the currently supported versions:
+
+- `ghcr.io/logisparte/helot`
+- `ghcr.io/logisparte/helot-20.04`
+- `ghcr.io/logisparte/helot-18.04`
+- `ghcr.io/logisparte/helot-16.04`
 
 ## License
 
@@ -64,28 +76,49 @@ To configure AWS credentials, simply run the container with these environment va
 
 ## Contributors
 
+> See [kano](https://github.com/logisparte/kano)'s builtin docker task documentation for more
+> information on the following tasks
+
 ### Build
 
-To build the image:
+To build the development image from Ubuntu 20.04:
 
 ```shell
-kano build
+kano docker build
 ```
 
-> Image will be named `helot:local`
+To build the development image from another Ubuntu version:
+
+```shell
+kano docker build --build-arg UBUNTU_VERSION="16.04"
+```
 
 ### Dev
 
 To run a container in interactive mode:
 
 ```shell
-kano dev
+kano docker start
+kano docker attach
 ```
 
 ### Test
 
-To test that the image was built correctly **from inside the container**:
+To test that the image was built correctly:
 
 ```shell
+kano docker run kano test
+
+# or from inside the container (while attached):
+
 kano test
+```
+
+### Release
+
+**This should normally be done by the CI/CD pipeline.** To build and release the images to the
+registry:
+
+```shell
+kano release "$REGISTRY" "$REPOSITORY" "$VERSION"
 ```

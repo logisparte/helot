@@ -1,19 +1,18 @@
-﻿name: cd
+﻿name: ci-branch
 
 on:
-  push:
-    tags:
-      - '[0-9]+.[0-9]+.[0-9]+'
+  pull_request:
+    branches:
+      - master
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY_URL: ghcr.io
   HELOT_GITHUB_USERNAME: logisparte-helot
   HELOT_GITHUB_ACCESS_TOKEN: ${{ secrets.HELOT_GITHUB_ACCESS_TOKEN }}
   REPOSITORY: ${{ github.repository }}
-  GITHUB_REF: ${{ github.ref }}
 
 jobs:
-  run_cd:
+  run_ci:
     runs-on: ubuntu-latest
     steps:
       - name: Install kano
@@ -22,10 +21,10 @@ jobs:
             | tar -xz
           sudo ./kano/install
 
-      - name: Export environment variable
+      - name: Export environment variables
         run: |
-          VERSION="$(echo "$GITHUB_REF" | cut -d "/" -f 3)"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          DEVELOPMENT_IMAGE="$REGISTRY_URL/$REPOSITORY-dev"
+          echo "DEVELOPMENT_IMAGE=$DEVELOPMENT_IMAGE" >> "$GITHUB_ENV"
 
       - uses: actions/checkout@v2
         name: Clone project
@@ -33,9 +32,15 @@ jobs:
       - name: Login to registry
         uses: docker/login-action@v1
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ env.REGISTRY_URL }}
           username: ${{ env.HELOT_GITHUB_USERNAME }}
           password: ${{ env.HELOT_GITHUB_ACCESS_TOKEN }}
 
-      - name: Build and release images
-        run: kano release "$REGISTRY" "$REPOSITORY" "$VERSION"
+      - name: Pull existing development image, if any
+        run: docker pull "$DEVELOPMENT_IMAGE" || true
+
+      - name: Build development image from cache
+        run: kano docker build --cache-from "$DEVELOPMENT_IMAGE"
+
+      - name: Test project
+        run: kano docker run kano test
