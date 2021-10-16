@@ -32,6 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     ssh-client \
     unzip \
     vim \
+    wget \
     zsh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
