@@ -9,12 +9,14 @@ LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION" \
 ARG TIMEZONE="UTC"
 
 ENV EDITOR="/usr/bin/vim"
-ENV TZ="${TIMEZONE}"
+ENV TIMEZONE="${TIMEZONE}"
 
 CMD /bin/zsh
 
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get update \
+    ln -snf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime \
+    && echo "$TIMEZONE" > /etc/timezone \
+    && apt-get update \
     && apt-get install -y -q --no-install-recommends \
         apt-transport-https \
         ca-certificates \
