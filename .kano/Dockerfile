@@ -31,6 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     less \
     ssh-client \
     sudo \
+    tzdata \
     unzip \
     vim \
     wget \
