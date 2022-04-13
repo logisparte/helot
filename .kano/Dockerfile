@@ -6,12 +6,15 @@ LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION" \
     org.opencontainers.image.authors="logisparte <info@logisparte.com>" \
     org.opencontainers.image.source="https://github.com/logisparte/helot"
 
+ARG TARGETARCH
 ARG TIMEZONE="UTC"
 
 ENV EDITOR="/usr/bin/vim"
 ENV TIMEZONE="${TIMEZONE}"
 
 CMD /bin/zsh
+
+COPY .kano .kano
 
 RUN DEBIAN_FRONTEND=noninteractive \
     ln -snf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime \
@@ -44,14 +47,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && chsh -s /bin/zsh root \
-    && curl -L https://github.com/logisparte/kano/releases/download/3.4.0/kano.tar.gz \
-        | tar -xz \
-    && ./kano/install \
-    && rm -rf ./kano \
-    && curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.3.7.zip -o awscliv2.zip \
-    && unzip awscliv2.zip \
-    && rm -rf awscliv2.zip \
-    && ./aws/install \
-    && rm -rf ./aws
+    && .kano/dependencies/kano \
+    && .kano/dependencies/aws "$TARGETARCH" \
+    && rm -rf .kano
 
 COPY sources/kano /etc/kano

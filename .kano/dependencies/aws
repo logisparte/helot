@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+install() {
+  ARCH="$1"
+
+  VERSION="2.5.4"
+  case "$ARCH" in
+    amd64)
+      AWS_ARCH="x86_64"
+      ;;
+
+    arm64*)
+      AWS_ARCH="aarch64"
+      ;;
+
+    *)
+      echo "Unknown architecture $ARCH" >&2
+      exit 1
+      ;;
+  esac
+
+  curl -o awscliv2.zip "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_ARCH-$VERSION.zip"
+  unzip awscliv2.zip
+  rm -rf awscliv2.zip
+  ./aws/install
+  rm -rf ./aws
+}
+
+install "$@"
