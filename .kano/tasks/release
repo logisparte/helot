@@ -2,6 +2,8 @@
 
 . "$KANO_HELPERS/fail"
 
+DEFAULT_UBUNTU_VERSION="20.04"
+
 release_help() {
   echo "Build and release helot images to registry"
 }
@@ -11,15 +13,24 @@ release() {
   REPOSITORY="$2"
   HELOT_VERSION="$3"
 
+  if [ -z "$REGISTRY" ]; then
+    fail "No registry url provided"
+  fi
+
+  if [ -z "$REPOSITORY" ]; then
+    fail "No registry repository name provided"
+  fi
+
   if [ -z "$HELOT_VERSION" ]; then
     fail "No helot version provided"
   fi
 
-  for UBUNTU_VERSION in $(_get_ubuntu_versions); do
-    _build_and_release_image "$REGISTRY" "$REPOSITORY" "$HELOT_VERSION" "$UBUNTU_VERSION"
-  done
+  BASE_NAME="$REGISTRY/$REPOSITORY"
 
-  _build_and_release_default_image "$REGISTRY" "$REPOSITORY" "$HELOT_VERSION"
+  _prepare_builder
+  for UBUNTU_VERSION in $(_get_ubuntu_versions); do
+    _build_and_release_image "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION"
+  done
 }
 
 _get_ubuntu_versions() {
@@ -28,42 +39,38 @@ _get_ubuntu_versions() {
   echo "20.04"
 }
 
-_build_and_release_image() {
-  REGISTRY="$1"
-  REPOSITORY="$2"
-  HELOT_VERSION="$3"
-  UBUNTU_VERSION="$4"
-
-  IMAGE="$REGISTRY/$REPOSITORY-$UBUNTU_VERSION"
-  VERSIONED_IMAGE="$IMAGE:$HELOT_VERSION"
-  LATEST_IMAGE="$IMAGE:latest"
-
-  docker build \
-    --file .kano/Dockerfile \
-    --build-arg UBUNTU_VERSION="$UBUNTU_VERSION" \
-    --tag "$VERSIONED_IMAGE" \
-    --tag "$LATEST_IMAGE" \
-    .
-
-  docker push "$VERSIONED_IMAGE"
-  docker push "$LATEST_IMAGE"
+_prepare_builder() {
+  docker buildx create --name helot --use
+  docker buildx inspect --bootstrap
 }
 
-_build_and_release_default_image() {
-  REGISTRY="$1"
-  REPOSITORY="$2"
-  HELOT_VERSION="$3"
+_build_and_release_image() {
+  BASE_NAME="$1"
+  HELOT_VERSION="$2"
+  UBUNTU_VERSION="$3"
 
-  IMAGE="$REGISTRY/$REPOSITORY"
-  VERSIONED_IMAGE="$IMAGE:$HELOT_VERSION"
-  LATEST_IMAGE="$IMAGE:latest"
-
-  docker build \
+  # shellcheck disable=SC2046
+  docker buildx build \
     --file .kano/Dockerfile \
-    --tag "$VERSIONED_IMAGE" \
-    --tag "$LATEST_IMAGE" \
+    --build-arg UBUNTU_VERSION="$UBUNTU_VERSION" \
+    --platform linux/amd64,linux/arm64 \
+    $(_get_tag_arguments "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION") \
+    --push \
     .
+}
 
-  docker push "$VERSIONED_IMAGE"
-  docker push "$LATEST_IMAGE"
+_get_tag_arguments() {
+  BASE_NAME="$1"
+  HELOT_VERSION="$2"
+  UBUNTU_VERSION="$3"
+
+  QUALIFIED_NAME="$BASE_NAME-$UBUNTU_VERSION"
+
+  echo "--tag $QUALIFIED_NAME:$HELOT_VERSION"
+  echo "--tag $QUALIFIED_NAME:latest"
+
+  if [ "$UBUNTU_VERSION" = "$DEFAULT_UBUNTU_VERSION" ]; then
+    echo "--tag $BASE_NAME:$HELOT_VERSION"
+    echo "--tag $BASE_NAME:latest"
+  fi
 }

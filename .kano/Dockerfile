@@ -2,7 +2,7 @@ ARG UBUNTU_VERSION="20.04"
 FROM ubuntu:$UBUNTU_VERSION
 
 LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION" \
-    org.opencontainers.image.description="Base development image" \
+    org.opencontainers.image.description="logisparte's base development image" \
     org.opencontainers.image.authors="logisparte <info@logisparte.com>" \
     org.opencontainers.image.source="https://github.com/logisparte/helot"
 
