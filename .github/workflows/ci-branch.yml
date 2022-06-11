@@ -27,8 +27,8 @@ jobs:
           DEVELOPMENT_IMAGE="$REGISTRY_URL/$REPOSITORY-dev"
           echo "DEVELOPMENT_IMAGE=$DEVELOPMENT_IMAGE" >> "$GITHUB_ENV"
 
-      - uses: actions/checkout@v2
-        name: Clone project
+      - name: Clone project
+        uses: actions/checkout@v2
 
       - name: Login to registry
         uses: docker/login-action@v1

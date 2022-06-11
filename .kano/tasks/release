@@ -27,7 +27,6 @@ release() {
 
   BASE_NAME="$REGISTRY/$REPOSITORY"
 
-  _prepare_builder
   for UBUNTU_VERSION in $(_get_ubuntu_versions); do
     _build_and_release_image "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION"
   done
@@ -37,11 +36,6 @@ _get_ubuntu_versions() {
   echo "16.04"
   echo "18.04"
   echo "20.04"
-}
-
-_prepare_builder() {
-  docker buildx create --name helot --use
-  docker buildx inspect --bootstrap
 }
 
 _build_and_release_image() {
