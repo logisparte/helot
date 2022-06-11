@@ -2,7 +2,7 @@
 
 . "$KANO_HELPERS/fail"
 
-DEFAULT_UBUNTU_VERSION="20.04"
+DEFAULT_UBUNTU_VERSION="22.04"
 
 release_help() {
   echo "Build and release helot images to registry"
@@ -33,9 +33,8 @@ release() {
 }
 
 _get_ubuntu_versions() {
-  echo "16.04"
-  echo "18.04"
   echo "20.04"
+  echo "22.04"
 }
 
 _build_and_release_image() {

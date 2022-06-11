@@ -21,13 +21,13 @@ for all engineers and bots. This repository contains Ubuntu-based Docker images 
 this role. They contain basic tools for general development and CI/CD automation (see the
 [Dockerfile](/.kano/Dockerfile) for more details)
 
-The default image is based on Ubuntu 20.04. Specific versions are denoted with a dashed-suffix.
-These are the currently supported versions:
+The default image is based on `Ubuntu 22.04`. Images based on other Ubuntu versions are
+suffixed with the version number. All images support AMD64 and AMR64 architectures. These are
+the currently supported versions:
 
 - `ghcr.io/logisparte/helot`
+- `ghcr.io/logisparte/helot-22.04`
 - `ghcr.io/logisparte/helot-20.04`
-- `ghcr.io/logisparte/helot-18.04`
-- `ghcr.io/logisparte/helot-16.04`
 
 ## License
 
@@ -81,7 +81,7 @@ To configure AWS credentials, simply run the container with these environment va
 
 ### Build
 
-To build the development image from Ubuntu 20.04:
+To build the development image from Ubuntu 22.04:
 
 ```shell
 kano docker build
@@ -90,7 +90,7 @@ kano docker build
 To build the development image from another Ubuntu version:
 
 ```shell
-kano docker build --build-arg UBUNTU_VERSION="16.04"
+kano docker build --build-arg UBUNTU_VERSION="20.04"
 ```
 
 ### Dev
