@@ -38,7 +38,12 @@ jobs:
           username: ${{ env.HELOT_GITHUB_USERNAME }}
           password: ${{ env.HELOT_GITHUB_ACCESS_TOKEN }}
 
-      - name: Setup Docker Buildx
+      - name: Setup QEMU multi-architecture emulators
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: amd64,arm64
+
+      - name: Setup buildx multi-architecture builder
         uses: docker/setup-buildx-action@v2
         with:
           driver: docker-container
