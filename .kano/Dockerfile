@@ -1,11 +1,6 @@
 ARG UBUNTU_VERSION="20.04"
 FROM ubuntu:$UBUNTU_VERSION
 
-LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION"
-LABEL org.opencontainers.image.description="logisparte's base development image"
-LABEL org.opencontainers.image.authors="logisparte <info@logisparte.com>"
-LABEL org.opencontainers.image.source="https://github.com/logisparte/helot"
-
 ARG TARGETARCH
 ARG TIMEZONE="UTC"
 

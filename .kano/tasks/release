@@ -50,6 +50,11 @@ _build_and_release_image() {
     --platform linux/amd64,linux/arm64 \
     $(_get_tag_arguments "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION") \
     --push \
+    --label "org.opencontainers.image.title=helot-$UBUNTU_VERSION" \
+    --label "org.opencontainers.image.description=logisparte's base development image" \
+    --label "org.opencontainers.image.authors=@logisparte" \
+    --label "org.opencontainers.image.source=https://github.com/logisparte/helot" \
+    --label "org.opencontainers.image.base.name=ubuntu:$UBUNTU_VERSION" \
     .
 }
 
