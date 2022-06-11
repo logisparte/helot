@@ -22,13 +22,14 @@ automates. Ce dépôt contient des images Docker basées sur Ubuntu pouvant joue
 contiennent des outils de base pour le développement général and l'automatisation CI/CD (voir le
 [Dockerfile](/.kano/Dockerfile) pour de plus de détails)
 
-L'image par défaut est basée sur Ubuntu 20.04. Les versions spécifiques sont dénotées par un
-suffixe précédé d'un trait d'union. Les versions actuellement supportées sont les suivantes :
+L'image par défaut est basée sur `Ubuntu 22.04`. Les images basées sur d'autres versions
+d'Ubuntu sont dénotées par un suffixe correspondant au numéro de version. Toutes les images
+supportent les architectures AMD64 et ARM64. Les versions actuellement supportées sont les
+suivantes :
 
 - `ghcr.io/logisparte/helot`
+- `ghcr.io/logisparte/helot-22.04`
 - `ghcr.io/logisparte/helot-20.04`
-- `ghcr.io/logisparte/helot-18.04`
-- `ghcr.io/logisparte/helot-16.04`
 
 ## Licence
 
@@ -83,7 +84,7 @@ d'environnement :
 
 ### Build
 
-Pour bâtir l'image à partir d'Ubuntu 20.04 :
+Pour bâtir l'image à partir d'Ubuntu 22.04 :
 
 ```shell
 kano docker build
@@ -92,7 +93,7 @@ kano docker build
 Pour bâtir l'image à partir d'une autre version d'Ubuntu :
 
 ```shell
-kano docker build --build-arg UBUNTU_VERSION="16.04"
+kano docker build --build-arg UBUNTU_VERSION="20.04"
 ```
 
 ### Dev
