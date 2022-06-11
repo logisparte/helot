@@ -3,7 +3,7 @@
 install() {
   ARCH="$1"
 
-  VERSION="2.5.4"
+  VERSION="2.7.7"
   case "$ARCH" in
     amd64)
       AWS_ARCH="x86_64"
