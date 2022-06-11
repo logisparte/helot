@@ -41,15 +41,13 @@ jobs:
           username: ${{ env.HELOT_GITHUB_USERNAME }}
           password: ${{ env.HELOT_GITHUB_ACCESS_TOKEN }}
 
-      - name: Pull existing development image, if any
-        run: docker pull "$DEVELOPMENT_IMAGE_LATEST_TAG" || true
-
       - name: Build development image from cache
         run: |
           kano docker build \
+            --pull \
+            --cache-from "$DEVELOPMENT_IMAGE" \
             --tag "$DEVELOPMENT_IMAGE_COMMIT_TAG" \
-            --tag "$DEVELOPMENT_IMAGE_LATEST_TAG" \
-            --cache-from "$DEVELOPMENT_IMAGE"
+            --tag "$DEVELOPMENT_IMAGE_LATEST_TAG"
 
       - name: Push development image
         run: |

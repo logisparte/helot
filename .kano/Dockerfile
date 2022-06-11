@@ -6,7 +6,8 @@ LABEL org.opencontainers.image.title="helot-$UBUNTU_VERSION" \
     org.opencontainers.image.authors="logisparte <info@logisparte.com>" \
     org.opencontainers.image.source="https://github.com/logisparte/helot"
 
-ARG TARGETARCH
+ARG BUILDARCH
+ARG TARGETARCH="$BUILDARCH"
 ARG TIMEZONE="UTC"
 
 ENV EDITOR="/usr/bin/vim"
