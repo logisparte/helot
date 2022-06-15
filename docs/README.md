@@ -107,7 +107,7 @@ kano docker attach
 To test that the image was built correctly:
 
 ```shell
-kano docker run kano test
+kano dockered test
 
 # or from inside the container (while attached):
 

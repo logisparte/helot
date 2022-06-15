@@ -19,18 +19,16 @@ jobs:
     steps:
       - name: Install kano
         run: |
-          curl -L https://github.com/logisparte/kano/releases/download/3.4.0/kano.tar.gz \
+          curl -L https://github.com/logisparte/kano/releases/download/3.5.3/kano.tar.gz \
             | tar -xz
           sudo ./kano/install
 
       - name: Export environment variables
         run: |
           DEVELOPMENT_IMAGE="$REGISTRY_URL/$REPOSITORY-dev"
-          DEVELOPMENT_IMAGE_COMMIT_TAG="$DEVELOPMENT_IMAGE:$COMMIT"
-          DEVELOPMENT_IMAGE_LATEST_TAG="$DEVELOPMENT_IMAGE:latest"
-          echo "DEVELOPMENT_IMAGE=$DEVELOPMENT_IMAGE" >> "$GITHUB_ENV"
-          echo "DEVELOPMENT_IMAGE_COMMIT_TAG=$DEVELOPMENT_IMAGE_COMMIT_TAG" >> "$GITHUB_ENV"
-          echo "DEVELOPMENT_IMAGE_LATEST_TAG=$DEVELOPMENT_IMAGE_LATEST_TAG" >> "$GITHUB_ENV"
+          echo "DEVELOPMENT_IMAGE_COMMIT_TAG=$DEVELOPMENT_IMAGE:$COMMIT" >> "$GITHUB_ENV"
+          echo "DEVELOPMENT_IMAGE_LATEST_TAG=$DEVELOPMENT_IMAGE:latest" >> "$GITHUB_ENV"
+          echo "KANO_DEVELOPMENT_IMAGE=$DEVELOPMENT_IMAGE" >> "$GITHUB_ENV"
 
       - name: Clone project
         uses: actions/checkout@v2
@@ -46,7 +44,6 @@ jobs:
         run: |
           kano docker build \
             --pull \
-            --cache-from "$DEVELOPMENT_IMAGE" \
             --tag "$DEVELOPMENT_IMAGE_COMMIT_TAG" \
             --tag "$DEVELOPMENT_IMAGE_LATEST_TAG"
 

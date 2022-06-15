@@ -9,7 +9,7 @@ ENV TIMEZONE="${TIMEZONE}"
 
 CMD /bin/zsh
 
-COPY .kano .kano
+COPY .kano/installers ./installers
 
 RUN DEBIAN_FRONTEND=noninteractive \
     ln -snf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime \
@@ -39,11 +39,15 @@ RUN DEBIAN_FRONTEND=noninteractive \
         vim \
         wget \
         zsh \
+    && chsh -s /bin/zsh root \
+    && curl -L "https://github.com/logisparte/kano/releases/download/3.5.3/kano.tar.gz" \
+        | tar -xz \
+    && ./kano/install \
+    && ./installers/aws "$TARGETARCH" \
+    # cleanup
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && chsh -s /bin/zsh root \
-    && .kano/dependencies/kano \
-    && .kano/dependencies/aws "$TARGETARCH" \
-    && rm -rf .kano
+    && rm -rf ./kano \
+    && rm -rf ./installers
 
 COPY sources/kano /etc/kano

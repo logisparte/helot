@@ -18,14 +18,12 @@ jobs:
     steps:
       - name: Install kano
         run: |
-          curl -L https://github.com/logisparte/kano/releases/download/3.4.0/kano.tar.gz \
+          curl -L https://github.com/logisparte/kano/releases/download/3.5.3/kano.tar.gz \
             | tar -xz
           sudo ./kano/install
 
       - name: Export environment variables
-        run: |
-          DEVELOPMENT_IMAGE="$REGISTRY_URL/$REPOSITORY-dev"
-          echo "DEVELOPMENT_IMAGE=$DEVELOPMENT_IMAGE" >> "$GITHUB_ENV"
+        run: echo "KANO_DEVELOPMENT_IMAGE=$REGISTRY_URL/$REPOSITORY-dev" >> "$GITHUB_ENV"
 
       - name: Clone project
         uses: actions/checkout@v2
@@ -39,9 +37,7 @@ jobs:
 
       - name: Build development image from cache
         run: |
-          kano docker build \
-            --pull \
-            --cache-from "$DEVELOPMENT_IMAGE"
+          kano docker build --pull
 
       - name: Test project
-        run: kano docker run kano test
+        run: kano dockered test

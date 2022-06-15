@@ -110,7 +110,7 @@ kano docker attach
 Pour tester que l'image a bien été bâtie :
 
 ```shell
-kano docker run kano test
+kano dockered test
 
 # ou depuis l'intérieur du conteneur (lorsqu'attaché):
 
