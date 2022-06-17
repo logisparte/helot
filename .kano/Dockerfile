@@ -40,7 +40,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
         wget \
         zsh \
     && chsh -s /bin/zsh root \
-    && curl -L "https://github.com/logisparte/kano/releases/download/3.5.3/kano.tar.gz" \
+    && curl -L "https://github.com/logisparte/kano/releases/download/3.6.0/kano.tar.gz" \
         | tar -xz \
     && ./kano/install \
     && ./installers/aws "$TARGETARCH" \
