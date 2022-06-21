@@ -20,6 +20,7 @@ RUN <<eof
     tzdata \
     unzip \
     wget
+  git config --system init.defaultbranch master
 eof
 
 FROM base AS zsh

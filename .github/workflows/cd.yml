@@ -6,15 +6,13 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 env:
-  REGISTRY: ghcr.io
-  HELOT_GITHUB_USERNAME: logisparte-helot
-  HELOT_GITHUB_ACCESS_TOKEN: ${{ secrets.HELOT_GITHUB_ACCESS_TOKEN }}
-  REPOSITORY: ${{ github.repository }}
-  GITHUB_REF: ${{ github.ref }}
   DOCKER_BUILDKIT: true
+  DOCKER_REGISTRY: ghcr.io
+  DOCKER_USERNAME: logisparte-helot
+  DOCKER_PASSWORD: ${{ secrets.HELOT_GITHUB_ACCESS_TOKEN }}
 
 jobs:
-  run_cd:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Install kano
@@ -23,20 +21,15 @@ jobs:
             | tar -xz
           sudo ./kano/install
 
-      - name: Export environment variable
-        run: |
-          VERSION="$(echo "$GITHUB_REF" | cut -d "/" -f 3)"
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-
       - name: Clone project
         uses: actions/checkout@v2
 
       - name: Login to registry
         uses: docker/login-action@v1
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ env.HELOT_GITHUB_USERNAME }}
-          password: ${{ env.HELOT_GITHUB_ACCESS_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
 
       - name: Setup QEMU multi-architecture emulators
         uses: docker/setup-qemu-action@v2
@@ -49,4 +42,4 @@ jobs:
           driver: docker-container
 
       - name: Build and release images
-        run: kano release "$REGISTRY" "$REPOSITORY" "$VERSION"
+        run: kano release "$DOCKER_REGISTRY" "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME"
