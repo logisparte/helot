@@ -24,5 +24,4 @@ configure_github() {
   git config "$FLAG" user.email "$GIT_EMAIL"
   git config "$FLAG" url."https://$PERSONAL_ACCESS_TOKEN:@github.com/".insteadOf \
     "https://github.com/"
-  git config "$FLAG" init.defaultbranch master
 }
