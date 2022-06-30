@@ -1,22 +1,28 @@
 #!/bin/sh
 
 . "$KANO_HELPERS/fail"
-. "$KANO_HELPERS/succeed"
+. "$KANO_HELPERS/report"
 
 test_help() {
-  echo "Test the docker image (from inside container)"
+  echo "Test the development environment"
 }
 
 test() {
   _test_github
   _test_aws
-  succeed "Tests passed"
+  report success "[test] Tests passed"
 }
 
 _test_github() {
-  gh --version >/dev/null 2>&1 || fail "GitHub not properly configured"
+  gh --version >/dev/null 2>&1 || _fail "GitHub not properly installed"
 }
 
 _test_aws() {
-  aws --version >/dev/null 2>&1 || fail "AWS not properly configured"
+  aws --version >/dev/null 2>&1 || _fail "AWS not properly installed"
+}
+
+_fail() {
+  MESSAGE="$1"
+
+  fail "[test] $MESSAGE"
 }
