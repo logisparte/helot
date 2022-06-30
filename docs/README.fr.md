@@ -55,6 +55,8 @@ FROM ghcr.io/logisparte/helot
 
 ### Configuration
 
+Quelques utilitaires doivent être configurés avant leur première utilisation dans un conteneur
+
 #### GitHub
 
 Pour configurer les identifiants git et GitHub locaux **depuis l'intérieur du conteneur** :
@@ -65,8 +67,8 @@ kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 
 #### AWS
 
-Pour configurer les identifiants AWS, simplement exécuter le conteneur avec ces variables
-d'environnement :
+Pour configurer les identifiants AWS, simplement monter un répertoire `.aws` utilisateur ou
+exécuter le conteneur avec ces variables d'environnement :
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
@@ -76,6 +78,16 @@ d'environnement :
 > Voir la
 > [documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 > d'AWS CLI pour plus d'information
+
+### Défauts
+
+Les valeurs suivantes sont configurées par défaut dans l'image :
+
+- Utilisateur: `docker` (sudo sans mot de passe)
+- Interface système: `/bin/sh -e -c`
+- Commande: `/bin/sh`
+- Fuseau horaire: `UTC`
+- Éditeur: `vim`
 
 ## Contributeurs
 
@@ -96,25 +108,12 @@ Pour bâtir l'image à partir d'une autre version d'Ubuntu :
 kano docker build --build-arg UBUNTU_VERSION="20.04"
 ```
 
-### Dev
-
-Pour exécuter un conteneur de développement en mode interactif :
-
-```shell
-kano docker start
-kano docker attach
-```
-
 ### Test
 
 Pour tester que l'image a bien été bâtie :
 
 ```shell
 kano dockered test
-
-# ou depuis l'intérieur du conteneur (lorsqu'attaché):
-
-kano test
 ```
 
 ### Release
@@ -123,5 +122,5 @@ kano test
 images dans le registre :
 
 ```shell
-kano release "$REGISTRY" "$REPOSITORY" "$VERSION"
+kano dockered release "$REGISTRY" "$REPOSITORY" "$VERSION"
 ```

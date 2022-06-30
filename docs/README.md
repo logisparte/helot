@@ -53,6 +53,8 @@ FROM ghcr.io/logisparte/helot
 
 ### Configuration
 
+Some utilities must be configured before their first use in a container
+
 #### GitHub
 
 To configure local git and GitHub credentials **from inside the container**:
@@ -63,7 +65,8 @@ kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 
 #### AWS
 
-To configure AWS credentials, simply run the container with these environment variables:
+To configure AWS credentials, simply mount a user `.aws` directory or run the container with
+these environment variables:
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
@@ -73,6 +76,16 @@ To configure AWS credentials, simply run the container with these environment va
 > See AWS CLI's
 > [documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) for
 > more information
+
+### Defaults
+
+These values are configured by default in the image:
+
+- User: `docker` (passwordless sudo)
+- Shell: `/bin/sh -e -c`
+- Command: `/bin/sh`
+- Timezone: `UTC` (configurable through `--build-arg TIMEZONE`)
+- Editor: `vim`
 
 ## Contributors
 
@@ -93,25 +106,12 @@ To build the development image from another Ubuntu version:
 kano docker build --build-arg UBUNTU_VERSION="20.04"
 ```
 
-### Dev
-
-To run a container in interactive mode:
-
-```shell
-kano docker start
-kano docker attach
-```
-
 ### Test
 
 To test that the image was built correctly:
 
 ```shell
 kano dockered test
-
-# or from inside the container (while attached):
-
-kano test
 ```
 
 ### Release
@@ -120,5 +120,5 @@ kano test
 registry:
 
 ```shell
-kano release "$REGISTRY" "$REPOSITORY" "$VERSION"
+kano dockered release "$REGISTRY" "$REPOSITORY" "$VERSION"
 ```
