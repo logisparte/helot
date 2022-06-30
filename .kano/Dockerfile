@@ -91,12 +91,14 @@ RUN <<eof
       ;;
   esac
 
-  sudo curl --silent --show-error --location --output "aws.zip" \
-    "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_ARCHITECTURE-2.7.7.zip"
-  sudo unzip aws.zip
-  sudo rm -rf aws.zip
-  sudo ./aws/install
-  sudo rm -rf ./aws
+  PACKAGE="aws"
+  ARCHIVE="$PACKAGE.zip"
+  sudo curl --silent --show-error --location --output "$ARCHIVE" \
+    "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_ARCHITECTURE-2.7.12.zip"
+  sudo unzip "$ARCHIVE"
+  sudo rm -rf "$ARCHIVE"
+  sudo "./$PACKAGE/install" --bin-dir "/usr/bin" --install-dir "/opt/aws-cli"
+  sudo rm -rf "./$PACKAGE"
 eof
 
 FROM aws as cleanup
