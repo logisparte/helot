@@ -5,7 +5,7 @@
 DEFAULT_UBUNTU_VERSION="22.04"
 
 release_help() {
-  echo "Build and release helot images to registry"
+  echo "Build and release images to registry"
 }
 
 release() {
@@ -14,15 +14,15 @@ release() {
   HELOT_VERSION="$3"
 
   if [ -z "$REGISTRY" ]; then
-    fail "No registry url provided"
+    _fail "No registry url provided"
   fi
 
   if [ -z "$REPOSITORY" ]; then
-    fail "No registry repository name provided"
+    _fail "No registry repository name provided"
   fi
 
   if [ -z "$HELOT_VERSION" ]; then
-    fail "No helot version provided"
+    _fail "No helot version provided"
   fi
 
   BASE_NAME="$REGISTRY/$REPOSITORY"
@@ -72,4 +72,10 @@ _get_tag_arguments() {
     echo "--tag $BASE_NAME:$HELOT_VERSION"
     echo "--tag $BASE_NAME:latest"
   fi
+}
+
+_fail() {
+  MESSAGE="$1"
+
+  fail "[release] $MESSAGE"
 }
