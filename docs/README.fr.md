@@ -59,10 +59,10 @@ Quelques utilitaires doivent être configurés avant leur première utilisation 
 
 #### GitHub
 
-Pour configurer les identifiants git et GitHub locaux **depuis l'intérieur du conteneur** :
+Pour configurer les identifiants git et GitHub locaux :
 
 ```shell
-kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
+kano dockered configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 ```
 
 #### AWS
@@ -122,5 +122,5 @@ kano dockered test
 images dans le registre :
 
 ```shell
-kano dockered release "$REGISTRY" "$REPOSITORY" "$VERSION"
+kano dockered release "$REGISTRY" "$VERSION"
 ```

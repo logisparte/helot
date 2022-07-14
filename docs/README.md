@@ -57,10 +57,10 @@ Some utilities must be configured before their first use in a container
 
 #### GitHub
 
-To configure local git and GitHub credentials **from inside the container**:
+To configure local git and GitHub credentials :
 
 ```shell
-kano configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
+kano dockered configure_github "$NAME" "$EMAIL" "$PERSONAL_ACCESS_TOKEN"
 ```
 
 #### AWS
@@ -120,5 +120,5 @@ kano dockered test
 registry:
 
 ```shell
-kano dockered release "$REGISTRY" "$REPOSITORY" "$VERSION"
+kano dockered release "$REGISTRY" "$VERSION"
 ```
