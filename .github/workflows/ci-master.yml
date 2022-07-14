@@ -17,8 +17,9 @@ jobs:
     steps:
       - name: Install kano
         run: |
-          curl -L https://github.com/logisparte/kano/releases/download/4.1.0/kano.tar.gz \
-            | tar -xz
+          curl --silent --show-error --location \
+            https://github.com/logisparte/kano/releases/download/4.1.0/kano.tar.gz \
+              | tar --extract --gzip
           sudo ./kano/install
 
       - name: Clone project
