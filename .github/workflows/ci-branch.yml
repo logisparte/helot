@@ -6,36 +6,33 @@ on:
       - master
 
 env:
-  DOCKER_BUILDKIT: true
-  DOCKER_REGISTRY: ghcr.io
+  KANO_DOCKER_REGISTRY: ghcr.io/logisparte
   DOCKER_USERNAME: logisparte-helot
   DOCKER_PASSWORD: ${{ secrets.HELOT_GITHUB_ACCESS_TOKEN }}
+  DOCKER_BUILDKIT: true
 
 jobs:
   check_branch:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Install kano
         run: |
-          curl -L https://github.com/logisparte/kano/releases/download/3.6.0/kano.tar.gz \
+          curl -L https://github.com/logisparte/kano/releases/download/4.1.0/kano.tar.gz \
             | tar -xz
           sudo ./kano/install
 
-      - name: Export environment variables
-        run: echo "KANO_DEVELOPMENT_IMAGE=$DOCKER_REGISTRY/$GITHUB_REPOSITORY-dev" >> "$GITHUB_ENV"
-
       - name: Clone project
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Login to registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
-          registry: ${{ env.DOCKER_REGISTRY }}
+          registry: ${{ env.KANO_DOCKER_REGISTRY }}
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
 
-      - name: Build development image from cache
-        run: kano docker build --pull
+      - name: Build branch development image
+        run: kano docker image build
 
       - name: Test project
         run: kano dockered test

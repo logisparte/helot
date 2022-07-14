@@ -6,7 +6,7 @@ RUN <<eof
   apt-get update
   DEBIAN_FRONTEND=noninteractive apt-get install --yes --quiet --no-install-recommends \
     sudo
-  useradd --groups sudo docker
+  useradd --groups sudo --no-create-home docker
   passwd --delete docker
 eof
 
@@ -42,19 +42,9 @@ eof
 
 ENV EDITOR="/usr/bin/vim"
 
-FROM tools AS kano
-
 COPY sources/kano /etc/kano
 
-RUN <<eof
-  curl --silent --show-error --location \
-    "https://github.com/logisparte/kano/releases/download/3.6.0/kano.tar.gz" \
-      | sudo tar --extract --gzip
-  sudo ./kano/install
-  sudo rm -rf ./kano
-eof
-
-FROM kano AS github
+FROM tools AS github
 
 RUN <<eof
   curl --silent --show-error --location \

@@ -10,35 +10,28 @@ release_help() {
 
 release() {
   REGISTRY="$1"
-  REPOSITORY="$2"
-  HELOT_VERSION="$3"
+  HELOT_VERSION="$2"
 
   if [ -z "$REGISTRY" ]; then
     _fail "No registry url provided"
-  fi
-
-  if [ -z "$REPOSITORY" ]; then
-    _fail "No registry repository name provided"
   fi
 
   if [ -z "$HELOT_VERSION" ]; then
     _fail "No helot version provided"
   fi
 
-  BASE_NAME="$REGISTRY/$REPOSITORY"
-
   for UBUNTU_VERSION in $(_get_ubuntu_versions); do
-    _build_and_release_image "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION"
+    _build_and_release_image "$REGISTRY" "$HELOT_VERSION" "$UBUNTU_VERSION"
   done
 }
 
 _get_ubuntu_versions() {
-  echo "20.04"
   echo "22.04"
+  echo "20.04"
 }
 
 _build_and_release_image() {
-  BASE_NAME="$1"
+  REGISTRY="$1"
   HELOT_VERSION="$2"
   UBUNTU_VERSION="$3"
 
@@ -47,7 +40,7 @@ _build_and_release_image() {
     --file .kano/Dockerfile \
     --build-arg UBUNTU_VERSION="$UBUNTU_VERSION" \
     --platform linux/amd64,linux/arm64 \
-    $(_get_tag_arguments "$BASE_NAME" "$HELOT_VERSION" "$UBUNTU_VERSION") \
+    $(_get_tag_arguments "$REGISTRY" "$HELOT_VERSION" "$UBUNTU_VERSION") \
     --push \
     --cache-to=type=inline \
     --label "org.opencontainers.image.title=helot-$UBUNTU_VERSION" \
@@ -59,15 +52,13 @@ _build_and_release_image() {
 }
 
 _get_tag_arguments() {
-  BASE_NAME="$1"
+  REGISTRY="$1"
   HELOT_VERSION="$2"
   UBUNTU_VERSION="$3"
 
-  QUALIFIED_NAME="$BASE_NAME-$UBUNTU_VERSION"
-
-  echo "--tag $QUALIFIED_NAME:$HELOT_VERSION"
-  echo "--tag $QUALIFIED_NAME:latest"
-
+  BASE_NAME="$REGISTRY/helot"
+  echo "--tag $BASE_NAME-$UBUNTU_VERSION:$HELOT_VERSION"
+  echo "--tag $BASE_NAME-$UBUNTU_VERSION:latest"
   if [ "$UBUNTU_VERSION" = "$DEFAULT_UBUNTU_VERSION" ]; then
     echo "--tag $BASE_NAME:$HELOT_VERSION"
     echo "--tag $BASE_NAME:latest"
