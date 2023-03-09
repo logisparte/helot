@@ -31,7 +31,7 @@ the currently supported versions:
 
 ## License
 
-`helot` is _free as in freedom_, under the terms of the [GPL-3.0 License](/LICENSE)
+`helot` is distributed under the terms of the [Apache 2.0 license](/LICENSE)
 
 ## Users
 
