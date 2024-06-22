@@ -4,6 +4,11 @@
 
 Base development Docker images
 
+> [!NOTE]
+> This repository is no longer maintained. Users are encouraged to migrate to
+> [docker-env](https://github.com/logisparte/docker-env) for containerized development
+> environments.
+
 ## About
 
 > Greek: `Εἵλωτες`, phonetic: `Heílôtes`
